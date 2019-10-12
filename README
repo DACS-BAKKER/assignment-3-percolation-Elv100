@@ -1,0 +1,17 @@
+Name: Elven Shum
+Project: Percolation Problem Set
+
+Write Up: [IN PROGRESS]
+
+Instructions: 
+  To run the percolation simulation, run the main in "Runner.java". This class will print the simulartion's average percolation probability and time taken.
+For actual algorithm comparrisons only use Runner.java
+Follow the console prompts to initiate correctly. Choosing algorithms, grid size, and repitiion numbers are all handled by the console prompts.
+
+
+  "RunnerGraphics.java" adds graphics to "Runner.java"
+Used for visual understanding of inner proccesses. Don't use to when attempting to compare algorithms becuase graphics will slow algorithms down.
+
+
+Notes: 
+  "UFAlgorithm.java" is an abstract class used for all UF Algorithms.
