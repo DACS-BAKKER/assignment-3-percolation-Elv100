@@ -1,7 +1,7 @@
 Name: Elven Shum
 Project: Percolation Problem Set
 
-Write Up: [IN PROGRESS]
+Write Up: See Repository
 
 Instructions: 
   To run the percolation simulation, run the main in "Runner.java". This class will print the simulartion's average percolation probability and time taken.
