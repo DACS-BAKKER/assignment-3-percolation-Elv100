@@ -11,9 +11,10 @@ import java.awt.*;
 
 public class Runner {
     private static int N = 20;
-    private static int reps = 1;
-    private static algos[] chosenAlg;
+    private static int reps = 1; //repetitions of algorithms -- how many times you want to run it
+    private static algos[] chosenAlg; //array for storing which algorithm user has chosen
 
+    //enum to store algos and reference
     private enum algos {
         QuickFind, QuickUnion, WeightedQuickUnion, QuickUnionPathCompression
     }
@@ -21,6 +22,8 @@ public class Runner {
 
 
     public static void main(String[] args) {
+        //UI
+        //Prompts Grid Length, Which Algorithm, and Repetition number
         StdOut.println("Elven's Percolation Runner");
         StdOut.println("Please Enter Grid Length:");
         N = StdIn.readInt();
@@ -39,8 +42,8 @@ public class Runner {
         StdOut.print("Input how many repetitions of algorithm #"+algSelection+" to simulate: ");
         reps = StdIn.readInt();
 
+        //uses another array of algos for Confirmed Chosen  Algorithm
         chosenAlg = new algos[1];
-
         switch (algSelection) {
             case 1:
                 chosenAlg[0] = algos.QuickFind;
@@ -62,20 +65,16 @@ public class Runner {
                 chosenAlg[3] = algos.QuickUnionPathCompression;
                 break;
         }
-        StdOut.println("GraphicsRunner currently running " + reps+ "reps of algorithm #"+algSelection);
+        StdOut.println("Runner currently running " + reps+ "reps of algorithm #"+algSelection);
 
         long start, end;
 
-        algos algoList[] = new algos[4];
-        algoList[0] = algos.QuickFind;
-        algoList[1] = algos.QuickUnion;
-        algoList[2] = algos.WeightedQuickUnion;
-        algoList[3] = algos.QuickUnionPathCompression;
-
+        //runs through the chosenAlg[] runs
         for (algos currentAlg : chosenAlg) {
             start = System.currentTimeMillis();
             double total = 0;
             for (int j = 0; j < reps; j++) {
+                //Calculate Percolate for each currentAlg
                 total += calcPercolate(currentAlg);
             }
             end = System.currentTimeMillis();
@@ -85,10 +84,10 @@ public class Runner {
 
     }
     private static Percolation perc;
-
-    public static int calcPercolate(algos currentAlg) {
+    private static int calcPercolate(algos currentAlg) {
         perc = new Percolation(N);
 
+        //reads the Current Algorithm
         switch (currentAlg) {
             case QuickFind:
                 perc.setAlgorithm(new QuickFind(perc.connected));
@@ -107,7 +106,7 @@ public class Runner {
         int rRow = 0, rCol = 0;
         int count = 0;
         while (!perc.percolates()) {
-            // Picks random number for a blocked block
+            // Picks random site to free
             do {
                 rRow = (int) (Math.random() * (N));
                 rCol = (int) (Math.random() * (N));

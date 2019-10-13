@@ -6,10 +6,10 @@
 
 public class Percolation {
     public int[] connected;
-    public boolean[] blocking;
+    private boolean[] blocking;
     private int top;
     private int bottom;
-    public UFAlgorithm algo;
+    private UFAlgorithm algo;
     private int size;
 
 
@@ -39,7 +39,9 @@ public class Percolation {
         blocking[calcPos(i,j)] = true;
         unionAdjacent(calcPos(i,j));
     }
-//
+
+    //When opening sites, need to also connect/union with adjacent sites.
+    //method deals with all cases
     public void unionAdjacent(int p){
         //deal with horizontal unions
         if(p % size ==0){  //left column of grid
@@ -74,25 +76,26 @@ public class Percolation {
         return (blocking[calcPos(i,j)]);
     }
 
-    //1x1 is upper left
+    //0,0 is upper left for coding purposes and efficiency
     public int calcPos(int i, int j){
         return (i)*size+(j);
     }
 
+    //checks if is fill
     public boolean isFull(int i, int j){
         return algo.isConnected(calcPos(i,j), top);
     }
-    // is site (row i, column j) full?/does it connect to top?
 
 
+    //determines if system can percolate
     public boolean percolates(){
         return algo.isConnected(top, bottom);
-    }         // does the system percolate?
+    }
 
 
     public static void main(String[] args){
-
-    }  // test client
+        //not needed because runner acts as testClient
+    }
 
 
 

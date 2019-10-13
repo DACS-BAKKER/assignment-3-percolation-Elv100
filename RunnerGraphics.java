@@ -11,23 +11,25 @@ import java.awt.*;
  */
 
 public class RunnerGraphics {
-    private static int N = 20;
-    private static int reps = 1;
-    private static final int maxN = 40;
-    private static algos[] chosenAlg;
+    private static int N;
+    private static final int maxN = 40; //max number of N for Graphics
+    private static int reps; //repetitions of algorithms -- how many times you want to run it
+    private static algos[] chosenAlg;  //array for storing which algorithm user has chosen
 
     private static final int APPLICATION_SIZE = 500;
     private static double SQR_SIZE = 0.5 / N;
 
+    //makes the 3 different states of sites
     private static final Color openSite = new Color(255, 255, 255);
     private static final Color closedSite = new Color(20, 20, 20);
     private static final Color filledSite = new Color(	16, 	150, 200);
 
-
+    //enum to store algos and reference
     private enum algos {
         QuickFind, QuickUnion, WeightedQuickUnion, QuickUnionPathCompression
     }
 
+    //draws for given r and c the correct block
     private static void draw(int r, int c) {
         StdDraw.setPenColor (openSite);
         StdDraw.filledSquare(2 * c * SQR_SIZE + SQR_SIZE, 2 * (N - r - 1) * SQR_SIZE + SQR_SIZE, SQR_SIZE);
@@ -43,6 +45,8 @@ public class RunnerGraphics {
 
 
     public static void main(String[] args) {
+        //UI
+        //Prompts Grid Length, Which Algorithm, and Repetition number
         StdOut.println("Elven's Percolation Runner w/ Graphics");
         StdOut.println("Due to graphics limitations, the max grid length is " + maxN);
         StdOut.println("Please Enter Grid Length:");
@@ -66,8 +70,8 @@ public class RunnerGraphics {
         StdOut.print("Input how many repetitions of algorithm #"+algSelection+" to simulate: ");
         reps = StdIn.readInt();
 
+        //uses another array of algos for Confirmed Chosen  Algorithm
         chosenAlg = new algos[1];
-
         switch (algSelection) {
             case 1:
                 chosenAlg[0] = algos.QuickFind;
@@ -90,6 +94,7 @@ public class RunnerGraphics {
                 break;
         }
         StdOut.println("GraphicsRunner currently running " + reps+ "reps of algorithm #"+algSelection);
+
         //init's drawing field
         StdDraw.setCanvasSize(APPLICATION_SIZE, APPLICATION_SIZE);
         StdDraw.setPenColor(closedSite);
@@ -97,12 +102,7 @@ public class RunnerGraphics {
 
         long start, end;
 
-        algos algoList[] = new algos[4];
-        algoList[0] = algos.QuickFind;
-        algoList[1] = algos.QuickUnion;
-        algoList[2] = algos.WeightedQuickUnion;
-        algoList[3] = algos.QuickUnionPathCompression;
-
+        //runs through the chosenAlg[] runs
         for (algos currentAlg : chosenAlg) {
             start = System.currentTimeMillis();
             double total = 0;
@@ -118,7 +118,7 @@ public class RunnerGraphics {
 
     public static int calcPercolate(algos currentAlg) {
         perc = new Percolation(N);
-
+        //reads the Current Algorithm
         switch (currentAlg) {
             case QuickFind:
                 perc.setAlgorithm(new QuickFind(perc.connected));
@@ -137,7 +137,7 @@ public class RunnerGraphics {
         int rRow = 0, rCol = 0;
         int count = 0;
         while (!perc.percolates()) {
-            // Picks random number for a blocked block
+            // Picks random site to unblock
             do {
                 rRow = (int) (Math.random() * (N));
                 rCol = (int) (Math.random() * (N));
